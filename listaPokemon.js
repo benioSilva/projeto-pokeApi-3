@@ -13,6 +13,7 @@ var tempKey = "listaMovimentos"
 var listPokemonKey = "listaPokeAdd"
 var nomeTimeId = "nome-time"
 var editarKey = "editarStorage"
+var timeAlteradoKey = "timeAlterado"
 
 initPage()
 
@@ -21,8 +22,9 @@ async function initPage() {
     getElementById(preencherTimeAddId).innerHTML = ""
     localStorage.removeItem(pokemonsKey)
     await loadPokemons(pokemonApiLink)
-    startEditar()
-    toggleBtnAddTime()
+   
+    verifcarSeIdExiste()
+    
 }
 
 function getElementById(id) {
@@ -39,9 +41,14 @@ function getStorageListaTime() {
     return JSON.parse(storageListaTime) || []
 }
 
-function getEditarStorage(){
+function getEditarStorage() {
     const storageEditar = localStorage.getItem(editarKey)
     return JSON.parse(storageEditar)
+}
+
+function getTimeAlteradoStorage() {
+    const timeAlterado = localStorage.getItem(timeAlteradoKey)
+    return JSON.parse(timeAlterado) || []
 }
 /*------------------------------------------------------- Funções de Exibição --------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -67,15 +74,15 @@ async function loadPokemons(pokeApiParam) {
                 '<div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4">' +
                 '<div><img src="' + linkImg + '" alt="' + element.name + '"></div>' +
                 '<h6>' + element.name + '</h6>' +
-                "<button class='btn btn-primary btn-sm' onclick='movimentos(\"" + linkImg + "\",\"" + element.name + "\")'>Movimentos</button>" +
-                "<button class='btn btn-success btn-add' onclick='btnAddPokemon(\"" + linkImg + "\",\"" + element.name + "\")' style='display: none;'>Add Time</button>" +
+                "<button class='btn btn-primary btn-sm btn-change-page' onclick='movimentos(\"" + linkImg + "\",\"" + element.name + "\")'>Movimentos</button>" +
+                "<button class='btn btn-success btn-add btn-change-page' onclick='btnAddPokemon(\"" + linkImg + "\",\"" + element.name + "\")' style='display: none;'>Add Time</button>" +
                 '</div>'
         } else {
             getElementById(preencherListaId).innerHTML +=
                 '<div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4">' +
                 '<div><img src="' + linkImg + '" alt="' + element.name + '"></div>' +
                 '<h6>' + element.name + '</h6>' +
-                "<button class='btn btn-primary btn-sm' onclick='movimentos(\"" + linkImg + "\",\"" + element.name + "\")'>Movimentos</button>" +
+                "<button class='btn btn-primary btn-sm btn-change-page' onclick='movimentos(\"" + linkImg + "\",\"" + element.name + "\")'>Movimentos</button>" +
                 '</div>'
         }
     }
@@ -94,40 +101,72 @@ function preencherTimeAdd() {
             '<div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4">' +
             '<div><img src="' + element.imagem + '" alt="' + element.nome + '"></div>' +
             '<h6>' + element.nome + '</h6>' +
-            "<button class='btn btn-primary btn-sm' onclick='movimentos(\"" + element.imagem + "\",\"" + element.nome + "\")'>Movimentos</button><br>" +
-            "<button class='btn btn-danger' onclick='BtnRemover(" + index + ")'>Remover</button>" +
+            "<button class='btn btn-primary btn-sm btn-change-page' onclick='movimentos(\"" + element.imagem + "\",\"" + element.nome + "\")'>Movimentos</button><br>" +
+            "<button class='btn btn-danger btn-change-page' onclick='BtnRemover(" + element.id + ")'>Remover</button>" +
             '</div>'
 
     });
 }
 
-function startEditar(){
-    let index = getEditarStorage()
-    const timeSelecionado = getStorageListaTime()[index]
-    const timeSelecionadoArray = []
+function startEditar() {
+    let idTime = getEditarStorage() 
+
+    
+    let timeSelecionado = getStorageListaTime()
+    for (let index = 0; index < timeSelecionado.length; index++) {
+        const element = timeSelecionado[index];
+             if(element.id == idTime){
+                    
+                const timeSelecionadoArray = []
+               
+
+
+                if (timeSelecionado[index].pokeUm) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeUm)
+                 }
+                 if (timeSelecionado[index].pokeDois) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeDois)
+                 }
+                 if (timeSelecionado[index].pokeTres) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeTres)
+                 }
+                 if (timeSelecionado[index].pokeQuatro) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeQuatro)
+                 }
+                 if (timeSelecionado[index].pokeCinco) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeCinco)
+                 }
+                 if (timeSelecionado[index].pokeSeis) {
+                     timeSelecionadoArray.push(timeSelecionado[index].pokeSeis)
+                 }
+                timeSelecionadoArray.id = idTime
+
+                
+             
+                localStorage.setItem(pokemonsKey, JSON.stringify(timeSelecionadoArray))
+                getElementById(nomeTimeId).value = timeSelecionado[index].nomeTime
+             
+                preencherTimeAdd()
+                toggleCriaTime()
+               loadPokemons(lastPage)   
+           }      
+        }          
+}
+
+function verifcarSeIdExiste(){
+    let timeSelecionado = getStorageListaTime()
+    let idTime = getEditarStorage() 
     console.log(timeSelecionado)
-    if(timeSelecionado.pokeUm){
-        timeSelecionadoArray.push(timeSelecionado.pokeUm)
+    console.log(idTime)
+    for (let index = 0; index < timeSelecionado.length; index++) {
+        const element = timeSelecionado[index];
+        if(element.id == idTime){
+            console.log(element.id == idTime)
+            startEditar()
+            return
+        } 
     }
-    if(timeSelecionado.pokeDois){
-        timeSelecionadoArray.push(timeSelecionado.pokeDois)
-    }
-    if(timeSelecionado.pokeTres){
-        timeSelecionadoArray.push(timeSelecionado.pokeTres)
-    }
-    if(timeSelecionado.pokeQuatro){
-        timeSelecionadoArray.push(timeSelecionado.pokeQuatro)
-    }
-    if(timeSelecionado.pokeCinco){
-        timeSelecionadoArray.push(timeSelecionado.pokeCinco)
-    }
-    if(timeSelecionado.pokeSeis){
-        timeSelecionadoArray.push(timeSelecionado.pokeSeis)
-    }
-    localStorage.setItem(pokemonsKey, JSON.stringify(timeSelecionadoArray))
-    getElementById(nomeTimeId).value = timeSelecionado.nomeTime
-    preencherTimeAdd()
-    toggleCriaTime()    
+    localStorage.removeItem(editarKey)
 }
 
 
@@ -142,6 +181,7 @@ function toggleSpinner() {
         document.querySelectorAll('.btn-change-page').forEach(element => {
             element.disabled = true
         });
+        
     } else {
         document.getElementById("spinner").style.display = "none"
         getElementById(preencherListaId).style.display = "flex"
@@ -168,7 +208,7 @@ function toggleCriaTime() {
         getElementById(btnExcluirId).style.display = "none"
         getElementById(divNameTimeId).style.display = "none"
         getElementById(preencherTimeAddId).style.display = "none"
-
+        
     }
 
 }
@@ -181,6 +221,7 @@ function toggleSalvarTime() {
         getElementById(divNameTimeId).style.display = "flex"
         getElementById(preencherTimeAddId).style.display = "flex"
         toggleBtnAddTime()
+        
 
 
     } else {
@@ -189,6 +230,7 @@ function toggleSalvarTime() {
         getElementById(btnExcluirId).style.display = "none"
         getElementById(divNameTimeId).style.display = "none"
         getElementById(preencherTimeAddId).style.display = "none"
+        
 
     }
 
@@ -252,17 +294,19 @@ function movimentos(pokeImg, pokenome) {
     }
     localStorage.setItem(tempKey, JSON.stringify(pokeselect))
     window.location.href = "file:///home/marcos/Desktop/ESTUDOS/projeto%20pokemon%202/coreui-free-bootstrap-admin-template-main/dist/base/lista-de-movimentos.html"
-
+    
 }
 
 function btnAddPokemon(imgPoke, namePoke) {
     let timeAdd = {
         imagem: imgPoke,
-        nome: namePoke
+        nome: namePoke,
+        id: generateId()
     }
     const realocandoStorage = getStoragePokemon()
     realocandoStorage.push(timeAdd)
-    localStorage.setItem(pokemonsKey, JSON.stringify(realocandoStorage))
+    localStorage.setItem(pokemonsKey, JSON
+        .stringify(realocandoStorage))
 
     preencherTimeAdd()
     toggleBtnAddTime()
@@ -270,16 +314,17 @@ function btnAddPokemon(imgPoke, namePoke) {
 
 }
 
-function BtnRemover(indexParam) {
+function BtnRemover(id) {
     let realocandoStorage = getStoragePokemon()
-    realocandoStorage = realocandoStorage.filter(function (element, index) {
-        return indexParam != index
+    realocandoStorage = realocandoStorage.filter(function (element) {
+        return element.id != id
     })
     localStorage.setItem(pokemonsKey, JSON.stringify(realocandoStorage))
 
     preencherTimeAdd()
     toggleBtnAddTime()
     loadPokemons(lastPage)
+
 }
 
 getElementById(btnSalvarId).addEventListener('click', function (event) {
@@ -289,7 +334,7 @@ getElementById(btnSalvarId).addEventListener('click', function (event) {
     if (!getElementById(nomeTimeId).value) {
         return alert("preencher nome do time")
     } else {
-        let listPoke = {
+        let timePoke = {
             nomeTime: getElementById(nomeTimeId).value,
             pokeUm: realocandoStorage[0],
             pokeDois: realocandoStorage[1],
@@ -297,33 +342,86 @@ getElementById(btnSalvarId).addEventListener('click', function (event) {
             pokeQuatro: realocandoStorage[3],
             pokeCinco: realocandoStorage[4],
             pokeSeis: realocandoStorage[5]
+
         }
-        const storageListaTime = getStorageListaTime()
-        const indexEditar = localStorage.getItem(editarKey)
-        if(indexEditar){
-            storageListaTime[indexEditar]= listPoke
-            localStorage.removeItem(editarKey)
-        } else{
-        storageListaTime.push(listPoke)
+        let storageListaTime = getStorageListaTime()
+
+        const idLista = localStorage.getItem(editarKey)
+
+        if (idLista) {
+            for (let index = 0; index < storageListaTime.length; index++) {
+                const element = storageListaTime[index];
+                if(element.id == idLista){
+                    timePoke.id = idLista
+                    storageListaTime[index] = timePoke
+                }
+                
+            }
+
+            
+
+
+        } else {
+            timePoke.id = generateId()
+            storageListaTime.push(timePoke)
+
         }
+
         localStorage.setItem(listPokemonKey, JSON.stringify(storageListaTime))
         getElementById(nomeTimeId).value = ""
         getElementById(preencherTimeAddId).innerHTML = ""
         localStorage.removeItem(pokemonsKey)
         toggleSalvarTime()
         toggleBtnAddTime()
+        localStorage.removeItem(editarKey)
+
     }
 })
 
-getElementById(btnExcluirId).addEventListener('click', function(event){
+getElementById(btnExcluirId).addEventListener('click', function (event) {
     event.preventDefault();
-    localStorage.removeItem(editarKey)
+   
+    const idLista = localStorage.getItem(editarKey)
+   
+    if(idLista){
+        
+        let storageListaTime = getStorageListaTime()
+      storageListaTime = storageListaTime.filter(function(element){
+        
+        return element.id != idLista
+      }) 
+      localStorage.setItem(listPokemonKey, JSON.stringify(storageListaTime)) 
+      localStorage.removeItem(editarKey)
+    }
+   
     localStorage.removeItem(pokemonsKey)
     getElementById(preencherTimeAddId).innerHTML = ""
     getElementById(nomeTimeId).value = ""
     toggleBtnAddTime()
     toggleExcluirTime()
     loadPokemons(lastPage)
-    
+
 
 })
+
+function generateId() {
+    return new Date().getTime()
+}
+
+// function alterarTime(timePoke) {
+//     let storageListaTime = getStorageListaTime()
+//     let idLista = localStorage.getItem(editarKey)
+//     storageListaTime = storageListaTime.filter(function (element) {
+//         return element.id == idLista
+//     })
+    
+//     if (storageListaTime.length == 1) {
+
+//         if (storageListaTime[0].id == idLista) {
+//             timePoke.id = idLista
+//             storageListaTime[0] = timePoke
+//         }
+        
+//     }
+// }
+

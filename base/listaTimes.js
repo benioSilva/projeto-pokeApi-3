@@ -7,7 +7,7 @@ function getElementById(id) {
     return document.getElementById(id)
 }
 
-function getStorageListaTimes() {
+function getStorageListaTime() {
     const storageListaTime = localStorage.getItem(listPokemonKey)
     return JSON.parse(storageListaTime) || []
 }
@@ -15,11 +15,11 @@ function getStorageListaTimes() {
 /*------------------------------------------------------- Funções de Exibição --------------------------------------------------------------------------------------------------------------------------------------*/
 preencherListaTimes()
 function preencherListaTimes() {
-    const realocandoStorage = getStorageListaTimes()
+        const realocandoStorage = getStorageListaTime()
     console.log(realocandoStorage)
     getElementById(preencherListaTimeId).innerHTML = ""
     realocandoStorage.forEach(function (element, index) {
-        console.log(element, index)
+       
         if (element.pokeUm == undefined) {
             element.pokeUm = {
                 imagem: "",
@@ -60,7 +60,7 @@ function preencherListaTimes() {
         }
 
         getElementById(preencherListaTimeId).innerHTML += '<tr>' +
-            '<th scope="row">' + (index + 1) + '</th>' +
+            '<th scope="row">' + element.id + '</th>' +
             '<td>' + element.nomeTime + '</td>' +
             '<td>' +
             '<div><img src="' + element.pokeUm.imagem + '" alt="' + element.pokeUm.nome + '"></div>' +
@@ -93,8 +93,8 @@ function preencherListaTimes() {
             "<button class='btn btn-primary btn-sm moves-seis'  onclick='movimentos(\"" + element.pokeSeis.imagem + "\",\"" + element.pokeSeis.nome + "\")'>Movimentos</button>" +
             '</td>' +
             '<td>' +
-            '<button class="btn btn-warning rounded-0" onclick=" btnEditar('+index+')">Editar Time</button><br>' +
-            '<button class="btn btn-danger rounded-0" onclick="btnExcluir('+index+')">Deletar TIme</button>' +
+            '<button class="btn btn-warning rounded-0" onclick=" btnEditar('+element.id+')">Editar Time</button><br>' +
+            '<button class="btn btn-danger rounded-0" onclick="btnExcluir('+element.id+')">Deletar TIme</button>' +
             '</td>' +
             '</tr>'
             if (!element.pokeUm.imagem) {
@@ -132,16 +132,18 @@ function movimentos(pokeImg, pokenome) {
 
 }
 
-function btnExcluir(indexParam){
-    let realocandoStorage = getStorageListaTimes()
-    realocandoStorage = realocandoStorage.filter(function(element, index){
-        return indexParam != index
+function btnExcluir(idTime){
+    let realocandoStorage = getStorageListaTime()
+    realocandoStorage = realocandoStorage.filter(function(element){
+        return element.id != idTime
     }) 
     localStorage.setItem(listPokemonKey, JSON.stringify(realocandoStorage))
     preencherListaTimes()
+   
 }
 
-function btnEditar(index){
-    localStorage.setItem(editarKey, index)
+function btnEditar(id){
+    localStorage.setItem(editarKey, id)
     window.location.href = "file:///home/marcos/Desktop/ESTUDOS/projeto%20pokemon%202/coreui-free-bootstrap-admin-template-main/dist/lista-pokemon.html"
+   
 }

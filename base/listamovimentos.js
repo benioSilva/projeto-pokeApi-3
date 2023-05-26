@@ -44,8 +44,10 @@ async function getMoves() {
 /*------------------------------------------------------- Funções de Botões --------------------------------------------------------------------------------------------------------------------------------------*/
 function returnListPokemons() {
     window.location.href = "file:///home/marcos/Desktop/ESTUDOS/projeto%20pokemon%202/coreui-free-bootstrap-admin-template-main/dist/lista-pokemon.html"
+    localStorage.removeItem(tempKey)
 }
 
 function returnListTeam(){
     window.location.href = "file:///home/marcos/Desktop/ESTUDOS/projeto%20pokemon%202/coreui-free-bootstrap-admin-template-main/dist/base/lista-de-times.html"
+    localStorage.removeItem(tempKey)
 }

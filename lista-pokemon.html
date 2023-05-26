@@ -331,13 +331,14 @@
         </nav>
       </div>
     </header>
-    <div class="body flex-grow-1 px-3">
+    <div class="body flex-grow-1 px-3" id="corpoTime">
       <div class="container-lg">
         <div class="card mb-4">
           <div class="card-header">
-            <button id="btn-criar" style="display: inline-block;" class="btn btn-info" onclick="toggleCriaTime()">Criar Time</button>
-            <button id="btn-salvar" style="display: none;" class="btn btn-success">Salvar</button>
-            <button id="btn-excluir" style="display: none;" class="btn btn-danger" >Excluir</button>
+            <button id="btn-criar" style="display: inline-block;" class="btn btn-info btn-change-page"
+              onclick="toggleCriaTime()">Criar Time</button>
+            <button id="btn-salvar" style="display: none;" class="btn btn-success btn-change-page">Salvar</button>
+            <button id="btn-excluir" style="display: none;" class="btn btn-danger btn-change-page">Excluir</button>
           </div>
           <div class="input-group mb-3" id="div-nome-time" style="display: none;">
             <span class="input-group-text" id="basic-addon1">Digite</span>
@@ -348,53 +349,48 @@
             <div id="time-add" class="row" style="display: none;">
 
             </div>
-            <div class="d-flex justify-content-center">
-              <div id="spinner" class="spinner-border" role="status" style="display: none;">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <div>
-        <div class="body flex-grow-1 px-3">
-          <div class="container-lg">
-            <div class="card mb-4">
-              <div class="card-header">
-              </div>
-              <div class="card-body">
-                <div id="preencher-lista" class="row">
+    </div>
+    <div>
+      <div class="body flex-grow-1 px-3">
+        <div class="container-lg">
+          <div class="card mb-4">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+              <div id="preencher-lista" class="row">
 
-                </div>
-                <div class="d-flex justify-content-center">
-                  <div id="spinner" class="spinner-border" role="status" style="display: none;">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div id="spinner" class="spinner-border" role="status" style="display: none;">
+                  <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
             </div>
           </div>
-          <div>
-            <button class="btn btn-secondary rounded-0 btn-sm btn-change-page"
-              onclick="previousPage()">Previous</button>
-            <button class="btn btn-dark rounded-0 btn-sm btn-change-page" onclick="nextPage()">Next</button>
-          </div>
         </div>
-        <footer class="footer">
-          <div><a href="https://coreui.io">CoreUI </a><a href="https://coreui.io">Bootstrap Admin Template</a> © 2022
-            creativeLabs.</div>
-          <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/docs/">CoreUI UI Components</a></div>
-        </footer>
+        <div>
+          <button class="btn btn-secondary rounded-0 btn-sm btn-change-page" onclick="previousPage()">Previous</button>
+          <button class="btn btn-dark rounded-0 btn-sm btn-change-page" onclick="nextPage()">Next</button>
+        </div>
       </div>
-      <!-- CoreUI and necessary plugins-->
-      <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-      <script src="vendors/simplebar/js/simplebar.min.js"></script>
-      <!-- Plugins and scripts required by this view-->
-      <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
-      <script src="js/colors.js"></script>
-      <script src="listaPokemon.js"></script>
-      <script>
-      </script>
+      <footer class="footer">
+        <div><a href="https://coreui.io">CoreUI </a><a href="https://coreui.io">Bootstrap Admin Template</a> © 2022
+          creativeLabs.</div>
+        <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/docs/">CoreUI UI Components</a></div>
+      </footer>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="vendors/simplebar/js/simplebar.min.js"></script>
+    <!-- Plugins and scripts required by this view-->
+    <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+    <script src="js/colors.js"></script>
+    <script src="listaPokemon.js"></script>
+    <script>
+    </script>
 
 </body>
 
